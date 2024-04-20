@@ -1,6 +1,7 @@
 #include "ConsoleIO.h"
 #include <iostream>
 #include <iomanip>
+#include <list>
 
 using namespace std;
 
@@ -56,6 +57,61 @@ void ConsoleIO::list_commands(string command){
 }
 
 void ConsoleIO::process_components(string command){
-    cout << "Entra" << endl;
+    if (command.substr(0, 11) == "inicializar"){
+        cout << "Diccionario.txt" << endl;
+    } else if (command.substr(0, 15) == "iniciar_inverso"){
+        cout << "Diccionario.txt inverso" << endl;
+    } else if (command.substr(0, 6) == "puntaje"){
+        cout << "puntaje" << endl;
+
+    } else if (command.substr(0, 13) == "iniciar_arbol"){
+        cout << "iniciar_arbol" << endl;
+
+    } else if (command.substr(0, 22) == "iniciar_arbol_inverso"){
+        cout << "iniciar_arbol_inverso" << endl;
+
+    } else if (command.substr(0, 20) == "palabras_por_prefijo"){
+        cout << "palabras_por_prefijo" << endl;
+
+    } else if (command.substr(0, 19) == "palabras_por_sufijo"){
+        cout << "palabras_por_sufijo" << endl;
+
+    } else if (command.substr(0, 17) == "grafo_de_palabras"){
+        cout << "grafo_de_palabras" << endl;
+
+    } else if (command.substr(0, 17) == "posibles_palabras"){
+        cout << "posibles_palabras" << endl;
+
+    } else {
+        cout << "Comando no reconocido" << endl;
+    }
 }
 
+/*
+list<Letra> leerLetras(string nombreArch){
+    list<Letra> letras;
+    Letra l;
+    int p;
+    char c;
+
+    // Se abre el archivo de texto con el nombre dado    
+    ifstream myfile(nombreArch);
+    if (myfile.is_open()) {
+        string line;
+
+        while (getline(myfile, line)) {
+            istringstream iss(line);
+            iss >> l.letra >> l.puntos;
+            letras.push_back(l);
+        }
+        myfile.close();
+
+        return letras;
+    }
+    else {
+        cout << endl << "El archivo letras.txt no ha sido leído, se requiere revisión de archivo.\n" << endl;
+        // retorna un lista vacia en caso de no poder leer el archivo
+        return letras;
+    }
+}
+*/
