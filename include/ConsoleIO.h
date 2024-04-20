@@ -21,7 +21,6 @@ class ConsoleIO{
 
 
         void process_components(string command);
-        void draw_interface();
 
 };
 
