@@ -32,19 +32,6 @@ ConsoleIO::ConsoleIO() {
     };
 };
 
-void ConsoleIO::draw_interface(){
-    string command;
-    cout << endl << "ayuda                      Lista de comandos disponibles" << endl;
-    cout << "ayuda nombre_comando       Descripción del comando" << endl;
-
-    while (true) {
-        // Entrada de comandos 
-        cout << endl << " $  ";
-        getline(cin, command);
-
-        process_command(command);
-    }
-}
 
 void ConsoleIO::process_command(string command){
     if(command.substr(0, 5) == "ayuda"){

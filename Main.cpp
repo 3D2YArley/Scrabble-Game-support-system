@@ -12,9 +12,18 @@ using namespace std;
 int main(){
     ConsoleIO consola;
 
-    while(true){
-        consola.draw_interface();
+    string command;
+    cout << endl << "ayuda                      Lista de comandos disponibles" << endl;
+    cout << "ayuda nombre_comando       Descripción del comando" << endl;
+
+    while (true) {
+        // Entrada de comandos 
+        cout << endl << " $  ";
+        getline(cin, command);
+
+        consola.process_command(command);
     }
+    
     
     return 0;
 }
