@@ -13,6 +13,11 @@ class Palabra {
 
     public:
         string getPalabra();
+        void setPalabra(string word);
+
+        int getPoints();
+        void setPoints(int point);
+
         bool operator<(const Palabra& otra) const;
 };
 

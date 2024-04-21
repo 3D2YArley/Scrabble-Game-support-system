@@ -9,6 +9,10 @@ class Letra {
     public:
         Letra();
         bool operator<(const Letra &otra) const;
+        char getLetra();
+        void setLetra(char letter);
+        int getPuntos();
+        void setPuntos(int points);
 
 };
 
