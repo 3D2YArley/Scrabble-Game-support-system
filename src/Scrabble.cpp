@@ -13,6 +13,9 @@ Scrabble::Scrabble() {
     letras = list<Letra>();
     diccionario = Diccionario();
     dicc_inverso = Diccionario();
+    arbol = ArbolTrie();
+    arbol_inverso = ArbolTrie();
+
 }
 
 bool Scrabble::fill_letter(string nom_archivo){

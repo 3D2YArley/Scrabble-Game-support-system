@@ -3,6 +3,7 @@
 
 #include "Letra.h"
 #include "Diccionario.h"
+#include "ArbolTrie.h"
 
 class Scrabble {
     private:
@@ -10,6 +11,9 @@ class Scrabble {
 
         Diccionario diccionario;
         Diccionario dicc_inverso;
+
+        ArbolTrie arbol;
+        ArbolTrie arbol_inverso;
 
     public:
         Scrabble();
