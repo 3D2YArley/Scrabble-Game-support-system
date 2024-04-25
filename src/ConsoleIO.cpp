@@ -66,19 +66,19 @@ void ConsoleIO::process_components(string command){
         scrabble.inicializar_diccionario(command.substr(16), true);
 
     } else if (command.substr(0, 8) == "puntaje "){
-        scrabble.word_score(command.substr(8));
+        scrabble.puntaje_palabra(command.substr(8));
 
     } else if (command.substr(0, 14) == "iniciar_arbol "){
-        scrabble.inicializar_Arbol(command.substr(14), false);
+        scrabble.inicializar_arbol(command.substr(14), false);
 
     } else if (command.substr(0, 22) == "iniciar_arbol_inverso "){
-        scrabble.inicializar_Arbol(command.substr(22), true);
+        scrabble.inicializar_arbol(command.substr(22), true);
 
     } else if (command.substr(0, 21) == "palabras_por_prefijo "){
-        scrabble.search_words(command.substr(21), false);
+        scrabble.buscar_palabras(command.substr(21), false);
 
     } else if (command.substr(0, 20) == "palabras_por_sufijo "){
-        scrabble.search_words(command.substr(20), true);
+        scrabble.buscar_palabras(command.substr(20), true);
 
 
         

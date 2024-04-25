@@ -8,22 +8,28 @@
 
 using namespace std;
 
+/* Definición del TAD ArbolTrie como una clase. */
 class ArbolTrie {
     private:
+        /* Datos mínimos */
         TrieNode* root;
-        int num_words;
+        int cantWords;
 
     public:
+        /* Constructores */
         ArbolTrie();
 
-        int getNumWords();
-        void setNumWords(bool increase);
+        /* Getters and Setters */
+        int getCantWords();
+        void setCantWords(bool increase);
 
+        /* Busqueda y inserción */
         void insert_word(string& word);
         TrieNode* search_prefix(string& prefix);
+        set<string> search_words(string& word, bool inverse);
 
+        /* empty() */
         bool isEmpty();
-        set<string> search_words(string& word, bool inverso);
 };
 
 #endif

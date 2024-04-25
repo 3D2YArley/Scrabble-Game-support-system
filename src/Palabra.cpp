@@ -1,37 +1,36 @@
 #include "Palabra.h"
 
+/* Creadores de instancias de Palabra */
 Palabra::Palabra(){ }
 
 Palabra::Palabra(string word){
-    this->palabra = word;
-    this->longitud = palabra.length();
+    this->word = word;
+    this->points = 0;
+    this->length = word.length();
 }
-
-string Palabra::getPalabra(){
-    return palabra;
+/* Obtenedores de atributos */
+string Palabra::getWord(){
+    return word;
 }
-
-void Palabra::setPalabra(string word){
-    palabra = word;
-}
-
 int Palabra::getPoints(){
-    return puntos;
+    return points;
 }
-
-void Palabra::setPoints(int points){
-    puntos = points;
-}
-
 int Palabra::getLength(){
-    return longitud;
+    return length;
 }
-
+/* Fijadores del valor de atributos*/
+void Palabra::setWord(string word){
+    word = word;
+}
+void Palabra::setPoints(int points){
+    points = points;
+}
 void Palabra::setLength(int length){
-    longitud = length;
+    length = length;
 }
 
+/* Ordenador de elementos de TAD Palabra*/
 bool Palabra::operator<(const Palabra& other) const {
-    return palabra < other.palabra;
+    return word < other.word;
 }
 

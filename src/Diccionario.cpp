@@ -19,7 +19,7 @@ void Diccionario::addWord(Palabra work){
 /* Función que busca una palabra en una lista utilizando punteros */
 Palabra* Diccionario::searchWord(const string& word) {
     for (Palabra& palabra : list_words) {
-        if (palabra.getPalabra() == word) {
+        if (palabra.getWord() == word) {
             return &palabra; // Devuelve el puntero a la palabra si la encuentra
         }
     }

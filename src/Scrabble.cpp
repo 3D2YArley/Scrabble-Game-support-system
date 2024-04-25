@@ -65,12 +65,12 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
             if (inverse) {
                 // Se invierte la palabra y se agrega al diccionario inverso.
                 reverse(palabra.begin(), palabra.end());
-                p.setPalabra(palabra);
-                inverse_dicc.add_palabra(p);
+                p.setWord(palabra);
+                inverse_dicc.addWord(p);
             } else {
                 // Solo se agrega al diccionario normal.
-                p.setPalabra(palabra);
-                dictionary.add_palabra(p);
+                p.setWord(palabra);
+                dictionary.addWord(p);
             }
         } else {
             cout << "El archivo " << nameFile << " contiene palabras con carácteres inválidos." << endl;
@@ -104,8 +104,8 @@ bool Scrabble::puntaje_palabra(string word) {
     reverse(word_inv.begin(), word_inv.end());
 
     // Verificar que la palabra esté en los diccionarios
-    Palabra* pal = dictionary.search_word(word);
-    Palabra* pal2 = inverse_dicc.search_word(word_inv);
+    Palabra* pal = dictionary.searchWord(word);
+    Palabra* pal2 = inverse_dicc.searchWord(word_inv);
 
     // Si no existe retorna error
     if (pal == nullptr || pal2 == nullptr){
@@ -192,7 +192,7 @@ void Scrabble::buscar_palabras(string word, bool isPrefix) {
         cout << endl << "Las palabras que inician con este " << preSuf << " son: " << endl;
         cout << left << setw(20) << "Palabra" << setw(10) << "Puntaje" << setw(10) << "Longitud" << endl;
         for(auto p : lista_palabras){
-            cout << left << setw(20) << p.getPalabra() << setw(10) << to_string(p.getPoints()) << setw(10) << to_string(p.getLength()) << endl;
+            cout << left << setw(20) << p.getWord() << setw(10) << to_string(p.getPoints()) << setw(10) << to_string(p.getLength()) << endl;
         }
     } else {
         // Si la lista está vacia se imprime mensaje de que el prefijo no se encontró en el arbol.
