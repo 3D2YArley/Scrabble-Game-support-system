@@ -6,17 +6,27 @@
 
 using namespace std;
 
+/* Definición del TAD Diccionario como una clase. */
 class Diccionario {
     private:
-        list<Palabra> palabras;
+        /* Datos mínimos */
+        list<Palabra> list_words;
 
     public:
-        list<Palabra> getListaPalabras();
-        void setListaPalabras(list<Palabra> works);
+        /* Constructores */
+        Diccionario();
 
-        void add_palabra(Palabra p);
-        Palabra* search_word(const string& word);
+        /* getters */
+        list<Palabra> getListWords();
+        void setListWords(list<Palabra> works);
 
+        /* Busqueda y inserción */
+        void addWord(Palabra p);
+        Palabra* searchWord(const string& word);
+
+        /* size() */
+        
+        /* empty() */
         bool palabras_is_empty();
 
 };
