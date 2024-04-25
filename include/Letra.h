@@ -8,6 +8,8 @@ class Letra {
 
     public:
         Letra();
+        Letra(char c);
+
         bool operator<(const Letra &otra) const;
         char getLetra();
         void setLetra(char letter);

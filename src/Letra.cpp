@@ -2,6 +2,10 @@
 
 Letra::Letra(){}
 
+Letra::Letra(char c){
+    letra = c;
+}
+
 char Letra::getLetra(){
     return letra;
 }

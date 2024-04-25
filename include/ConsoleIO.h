@@ -4,6 +4,9 @@
 #include "Scrabble.h"
 #include <string>
 #include <map>
+#include <iostream>
+#include <iomanip>
+#include <list>
 
 class ConsoleIO {
     private:
@@ -14,11 +17,9 @@ class ConsoleIO {
         ConsoleIO();
 
         void add_letters();
-        void process_command(string command);
         void list_commands(string command);
-
+        void process_command(string command);
         void process_components(string command);
-
 };
 
 #endif

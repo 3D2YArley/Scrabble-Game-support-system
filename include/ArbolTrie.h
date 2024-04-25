@@ -2,6 +2,8 @@
 #define ARBOLTRIE_H_
 
 #include "TrieNode.h"
+#include <iostream>
+#include <set>
 #include <string>
 
 using namespace std;
@@ -14,12 +16,14 @@ class ArbolTrie {
     public:
         ArbolTrie();
 
+        int getNumWords();
         void setNumWords(bool increase);
 
         void insert_word(string& word);
+        TrieNode* search_prefix(string& prefix);
 
-        bool search_word(string& word, bool prefijo);
-
+        bool isEmpty();
+        set<string> search_words(string& word, bool inverso);
 };
 
 #endif

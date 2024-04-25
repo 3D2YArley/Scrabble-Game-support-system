@@ -1,7 +1,4 @@
 #include "ConsoleIO.h"
-#include <iostream>
-#include <iomanip>
-#include <list>
 
 ConsoleIO::ConsoleIO() {
     ayuda = {
@@ -64,30 +61,42 @@ void ConsoleIO::list_commands(string command){
 void ConsoleIO::process_components(string command){
     if (command.substr(0, 12) == "inicializar "){
         scrabble.inicializar_diccionario(command.substr(12), false);
+
     } else if (command.substr(0, 16) == "iniciar_inverso "){
         scrabble.inicializar_diccionario(command.substr(16), true);
+
     } else if (command.substr(0, 8) == "puntaje "){
         string str = scrabble.word_score(command.substr(8));
         cout << str << endl;
-    } else if (command.substr(0, 14) == "iniciar_arbol "){
-        cout << "iniciar_arbol" << endl;
 
-    } else if (command.substr(0, 23) == "iniciar_arbol_inverso "){
-        cout << "iniciar_arbol_inverso" << endl;
+    } else if (command.substr(0, 14) == "iniciar_arbol "){
+        scrabble.inicializar_Arbol(command.substr(14), false);
+
+    } else if (command.substr(0, 22) == "iniciar_arbol_inverso "){
+        scrabble.inicializar_Arbol(command.substr(22), true);
 
     } else if (command.substr(0, 21) == "palabras_por_prefijo "){
-        cout << "palabras_por_prefijo" << endl;
+        cout << "Las palabras con el prefijo " << command.substr(20) << "son: " << endl;
+        set<Palabra> lista = scrabble.search_words(command.substr(21), false);
 
+        for(auto p : lista){
+            cout << p.getPalabra() << "    Puntaje: " << to_string(p.getPoints()) << "    Longitud: " << to_string(p.getLength()) << endl;
+        }
     } else if (command.substr(0, 20) == "palabras_por_sufijo "){
-        cout << "palabras_por_sufijo" << endl;
+        cout << "Las palabras con el sufijo " << command.substr(20) << "son: " << endl;
+        set<Palabra> lista = scrabble.search_words(command.substr(20), true);
+        
+        for(auto p : lista){
+            cout << p.getPalabra() << "    Puntaje: " << to_string(p.getPoints()) << "    Longitud: " << to_string(p.getLength()) << endl;
+        }
 
+
+
+        
     } else if (command.substr(0, 18) == "grafo_de_palabras "){
         cout << "grafo_de_palabras" << endl;
 
-    } else if (command.substr(0, 19) == "posibles_palabras "){
-        cout << "posibles_palabras" << endl;
-
-    } else {
+    } else {        
         cout << "Comando no reconocido" << endl;
     }
 }
