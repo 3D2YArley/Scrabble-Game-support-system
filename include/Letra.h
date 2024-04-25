@@ -3,8 +3,8 @@
 
 class Letra {
     private:
-        char letra;
-        int puntos;
+        char letter;
+        int point;
 
     public:
         /* Constructores */
@@ -13,17 +13,18 @@ class Letra {
 
 
         /* getters */
-        char getLetra();
-        int getPuntos();
+        char getLetter();
+        int getPoint();
         /* setters */
-        void setLetra(char letter);
-        void setPuntos(int points);
+        void setLetter(char letter);
+        void setPoint(int points);
 
         /* size() */
         /* empty() */
 
         /* operator< */
-        bool operator<(const Letra &otra) const;
+        bool operator<(const Letra &other) const;
+
 };
 
 #endif

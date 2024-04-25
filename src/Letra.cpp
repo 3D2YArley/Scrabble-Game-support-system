@@ -4,26 +4,26 @@
 Letra::Letra(){}
 
 Letra::Letra(char c){
-    this->letra = c;
-    this->puntos = 0;
+    this->letter = c;
+    this->point = 0;
 }
 /* Obtenedores de atributos */
-char Letra::getLetra(){
-    return letra;
+char Letra::getLetter(){
+    return letter;
 }
-int Letra::getPuntos(){
-    return puntos;
+int Letra::getPoint(){
+    return point;
 }
 
 /* Fijadores del valor de atributos*/
-void Letra::setLetra(char letter){
-    letra = letter;
+void Letra::setLetter(char letter){
+    letter = letter;
 }
-void Letra::setPuntos(int points){
-    puntos = points;
+void Letra::setPoint(int points){
+    point = points;
 }
 
 /* Ordenador de elementos de TAD Letra*/
 bool Letra::operator<(const Letra& otra) const {
-    return letra < otra.letra;
+    return letter < otra.letter;
 }
