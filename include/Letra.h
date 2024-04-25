@@ -1,8 +1,11 @@
 #ifndef LETRA_H_
 #define LETRA_H_
 
+/* Definición del TAD Scrabble como una clase. */
 class Letra {
+
     private:
+        /* Datos mínimos */
         char letter;
         int point;
 

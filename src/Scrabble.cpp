@@ -1,21 +1,21 @@
 #include "Scrabble.h"
 
-using namespace std;
-
+/* Creadores de instancias de Letra */
 Scrabble::Scrabble() {
-    letras = list<Letra>();
-    diccionario = Diccionario();
-    dicc_inverso = Diccionario();
-    arbol = ArbolTrie();
-    arbol_inverso = ArbolTrie();
+    letters_list = list<Letra>();
+    dictionary = Diccionario();
+    inverse_dicc = Diccionario();
+    tree = ArbolTrie();
+    inverse_tree = ArbolTrie();
 }
 
-bool Scrabble::fill_letter(string nom_archivo){
+/* Función principal que inicializa la liista de letras a partir del archivo de texto. */
+bool Scrabble::fill_letter(string nameFile){
     Letra letra;
     string line;
 
     // Se abre el archivo de texto con el nombre dado
-    ifstream myfile("files/" + nom_archivo);
+    ifstream myfile("files/" + nameFile);
     if (myfile.is_open()) {
         int p;
         char a;
@@ -24,10 +24,10 @@ bool Scrabble::fill_letter(string nom_archivo){
             istringstream iss(line);
             // Se lee la letra y el puntaje de la linea
             iss >> a >> p;
-            letra.setLetra(a);
-            letra.setPuntos(p);
+            letra.setLetter(a);
+            letra.setPoint(p);
             // Se agrega la letra  a la lista de letras
-            letras.push_back(letra);
+            letters_list.push_back(letra);
         }
         myfile.close();
         return true;
@@ -38,55 +38,62 @@ bool Scrabble::fill_letter(string nom_archivo){
 }
 
 
-/* Función encargada de inicializar el diccionario */    
-bool Scrabble::inicializar_diccionario(string nom_archivo, bool invertir){
+/* Función encargada de inicializar el diccionario de palabras. */    
+bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
     // Verificar si el diccionario ya ha sido inicializado
-    if (!diccionario.palabras_is_empty() && !invertir){
+    if (!dictionary.palabras_is_empty() && !inverse){
         cout << "El diccionario ya ha sido inicializado." << endl;
         return false;
-    } else if (!dicc_inverso.palabras_is_empty() && invertir){
+    } else if (!inverse_dicc.palabras_is_empty() && inverse){
         cout << "El diccionario inverso ya ha sido inicializado." << endl;
         return false;
     } 
-    
-    ifstream fin("files/" + nom_archivo);
-    string palabra;
 
+    string palabra;
+    // Se abre el archivo de texto diccionario en modo lectura.
+    ifstream fin("files/" + nameFile);
     if (!fin.is_open()) {
-        cout << "El archivo " << nom_archivo << " no existe o no puede ser leído.\n" << endl;
+        cout << "El archivo " << nameFile << " no existe o no puede ser leído.\n" << endl;
         return false;
     }
-
+    // Bucle que lee linea por linea la información del archivo
     while (fin >> palabra) {
+        // Se verifica que la palabra no contenga caracteres no alfabeticos y se mutan a minuscula.
         if (check_words(palabra)) {
             Palabra p;
-            if (invertir) {
+            // Se verifica si se está iniciando el diccionario normal o inverso
+            if (inverse) {
+                // Se invierte la palabra y se agrega al diccionario inverso.
                 reverse(palabra.begin(), palabra.end());
                 p.setPalabra(palabra);
-                dicc_inverso.add_palabra(p);
+                inverse_dicc.add_palabra(p);
             } else {
+                // Solo se agrega al diccionario normal.
                 p.setPalabra(palabra);
-                diccionario.add_palabra(p);
+                dictionary.add_palabra(p);
             }
         } else {
-            cout << "El archivo " << nom_archivo << " contiene palabras con carácteres inválidos." << endl;
+            cout << "El archivo " << nameFile << " contiene palabras con carácteres inválidos." << endl;
             return false;
         }
     }
     fin.close();
-    string str = (!invertir) ? "diccionario" : "diccionario inverso";
+    // Se imprime mensaje
+    string str = (!inverse) ? "diccionario" : "diccionario inverso";
     cout << "El " << str << " se ha inicializado correctamente." << endl;
     return true;
 }
 
 /* Calcula el puntaje de una palabra dada segun el puntaje de sus letras */
-bool Scrabble::word_score(string word) {
-    if (diccionario.palabras_is_empty()) {
+bool Scrabble::puntaje_palabra(string word) {
+    // Se realiza una verificación de existencia de ambos diccionarios
+    if (dictionary.palabras_is_empty()) {
         cout << "El Diccionario no ha sido inicializado." << endl;
         return false;
-    } else if (dicc_inverso.palabras_is_empty()){
+    } else if (inverse_dicc.palabras_is_empty()){
         cout << "El Diccionario Inverso no ha sido inicializado." << endl;
         return false;
+    // Se verifica que la palabra sea válida
     } else if (!check_words(word)){
         cout << "La palabra " + word + "  contiene símbolos inválidos." << endl;
         return false;
@@ -97,10 +104,10 @@ bool Scrabble::word_score(string word) {
     reverse(word_inv.begin(), word_inv.end());
 
     // Verificar que la palabra esté en los diccionarios
-    Palabra* pal = diccionario.search_word(word);
-    Palabra* pal2 = dicc_inverso.search_word(word_inv);
+    Palabra* pal = dictionary.search_word(word);
+    Palabra* pal2 = inverse_dicc.search_word(word_inv);
 
-    // sino existe retorna error
+    // Si no existe retorna error
     if (pal == nullptr || pal2 == nullptr){
        cout << "La palabra " + word + " no existe en los diccionarios." << endl;
     } else {
@@ -114,98 +121,115 @@ bool Scrabble::word_score(string word) {
     return true;
 }
 
-bool Scrabble::inicializar_Arbol(string nom_archivo, bool invertir){
-    if (!arbol.isEmpty() && !invertir){
+/* Función que inicializa un arbol con las palabras del archivo de texto diccionario. */
+bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
+    // Se verifica que no exista el arbol diccionario correspondiente usando el booleano invertir
+    if (!tree.isEmpty() && !inverse){
         cout << "El árbol del diccionario ya ha sido inicializado.";
         return false;
-    } else if (!arbol_inverso.isEmpty() && invertir){
+    } else if (!inverse_tree.isEmpty() && inverse){
         cout << "El árbol del diccionario inverso ya ha sido inicializado.";
         return false;
     }
 
-    ifstream fin("files/" + nom_archivo);
     string palabra;
-
+    // Se abre el archivo en forma de lectura
+    ifstream fin("files/" + nameFile);
     if (!fin.is_open()) {
-        cout << "El archivo " << nom_archivo << " no existe o no puede ser leído.\n" << endl;
+        cout << "El archivo " << nameFile << " no existe o no puede ser leído.\n" << endl;
         return false;
     }
     
+    // Se realiza la lectura de cada linea del archivo obteniendo la palabra almacenada
     while (fin >> palabra) {
+        // Se verifica que la palabra sea válida
         if (check_words(palabra)) {
-            if (invertir) {
+            if (inverse) {
+                // Se invierte la palabra y se agrega al arbol inverso.
                 reverse(palabra.begin(), palabra.end());
-                arbol_inverso.insert_word(palabra);
+                inverse_tree.insert_word(palabra);
             } else
-                arbol.insert_word(palabra);
+                // Se agrega al arbol normal
+                tree.insert_word(palabra);
         } else {
-            cout << "El archivo " << nom_archivo << " contiene palabras con carácteres inválidos." << endl;
+            cout << "El archivo " << nameFile << " contiene palabras con carácteres inválidos." << endl;
             return false;
         }
     }
+    // Se imprime mensaje de verificación
     fin.close();
-    string str = (!invertir) ? "" : "inverso ";
+    string str = (!inverse) ? "" : "inverso ";
     cout << "El árbol del diccionario " << str << "se ha inicializado correctamente." << endl;
     return true;
 }
 
-
-void Scrabble::search_words(string word, bool isPrefix) {
+/* Algoritmo que busca la lista de palabras que inician con un prefijo o sufijo dado. */
+void Scrabble::buscar_palabras(string word, bool isPrefix) {
+    // Se inicializan variables
     set<string> listaAuxiliar;
     set<Palabra> lista_palabras;
     string preSuf = isPrefix ? "sufijo " : "prefijo ";
-
+    // Se verifica si se requiere buscar palabras con prefijo o sufijo determinado por la variable isPrefix
     if (!isPrefix){
-        listaAuxiliar = arbol.search_words(word, isPrefix);
+        listaAuxiliar = tree.search_words(word, isPrefix);  // Si es prefijo se usa la función de busqueda de palabras en el arbol
     } else if (isPrefix) {
-        reverse(word.begin(), word.end());
-        listaAuxiliar = arbol_inverso.search_words(word, isPrefix);
+        reverse(word.begin(), word.end());  // Si es sufijo se usa la función en el arbol inverso
+        listaAuxiliar = inverse_tree.search_words(word, isPrefix);
     }
 
+    // Se verifica que la lista no esté vacia
     if (!listaAuxiliar.empty()){
+        // Recorre cada elemento de la lista de palabras y calcula cada atributo para crear un dato Palabra
         for (string c : listaAuxiliar){
             Palabra palabra = Palabra(c); 
 
             int puntaje = calculate_score(c);
             palabra.setPoints(puntaje);
-
+            // Se agrega el dato de tipo Palabra a la lista final.
             lista_palabras.insert(palabra);
         }
+        // Se imprime en pantalla el resultado
         cout << endl << "Las palabras que inician con este " << preSuf << " son: " << endl;
         cout << left << setw(20) << "Palabra" << setw(10) << "Puntaje" << setw(10) << "Longitud" << endl;
         for(auto p : lista_palabras){
             cout << left << setw(20) << p.getPalabra() << setw(10) << to_string(p.getPoints()) << setw(10) << to_string(p.getLength()) << endl;
         }
     } else {
+        // Si la lista está vacia se imprime mensaje de que el prefijo no se encontró en el arbol.
         cout << "Prefijo " << word << " no pudo encontrarse en el diccionario." << endl;
     }
 }
 
-
 /* Es posible sacar estas funciones en una clase Utils.*/
+
+/* Función que verifia la validez de una palabra. */
 bool Scrabble::check_words(string &word){
     // Verificar que la palabra contenga solo letras
     if (!all_of(word.begin(), word.end(), ::isalpha)){
         cout << endl << word << endl;
         return false;
     } else {
+        // Se mutan las letras a minuscula
         for (char &c : word)
             c = tolower(c);
     }
     return true;
 }
 
+/* Función encargada de calcular el puntaje de una palabra usando la lista de letras. */
 int Scrabble::calculate_score(string& word){
     int puntaje = 0;
     deque<char> fila(word.begin(), word.end());
-
-    for (auto& letra : letras){
+    // Se recorre la lista de letras
+    for (auto& letra : letters_list){
+        // Se recorre cada caracter de la palabra.
         for(auto it = fila.begin(); it != fila.end(); ){
-            if (letra.getLetra() == *it){
-                puntaje += letra.getPuntos();
-                it = fila.erase(it);
+            // Si son iguales se obtiene y suma el punto de la letra al puntaje
+            if (letra.getLetter() == *it){
+                puntaje += letra.getPoint();
+                it = fila.erase(it);    // Se elimina ese caracter de la palabra
             } else 
-                it++;
+                it++;   // Continua en siguiente palabra
         }   
     }
     return puntaje;

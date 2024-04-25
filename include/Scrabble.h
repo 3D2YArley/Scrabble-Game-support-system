@@ -17,29 +17,34 @@
 
 using namespace std;
 
+/* Definición del TAD Scrabble como una clase. */
 class Scrabble {
     private:
-        list<Letra> letras;
+        /* Datos mínimos */
+        list<Letra> letters_list;
 
-        Diccionario diccionario;
-        Diccionario dicc_inverso;
+        Diccionario dictionary;
+        Diccionario inverse_dicc;
 
-        ArbolTrie arbol;
-        ArbolTrie arbol_inverso;
+        ArbolTrie tree;
+        ArbolTrie inverse_tree;
 
     public:
+        /* Constructor */
         Scrabble();
-
-        bool fill_letter(string nom_archivo);
         
-        bool inicializar_diccionario(string nom_archivo, bool invertir);
-        bool word_score(string word);
+        /* Operaciones de modulo Configuración del juego. */
+        bool inicializar_diccionario(string nameFile, bool inverse);
+        bool puntaje_palabra(string word);
         
+        /* Funciones adicionales útiles. */
+        int calculate_score(string& word);
+        bool fill_letter(string nameFile);
         bool check_words(string &word);
 
-        bool inicializar_Arbol(string nom_archivo, bool invertir);
-        void search_words(string word, bool isPrefix);
-        int calculate_score(string& word);
+        /* Operaciones de modulo Búsqueda de palabras. */
+        bool inicializar_arbol(string nameFile, bool inverse);
+        void buscar_palabras(string word, bool isPrefix);
 };
 
 #endif
