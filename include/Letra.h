@@ -7,15 +7,23 @@ class Letra {
         int puntos;
 
     public:
+        /* Constructores */
         Letra();
         Letra(char c);
 
-        bool operator<(const Letra &otra) const;
+
+        /* getters */
         char getLetra();
-        void setLetra(char letter);
         int getPuntos();
+        /* setters */
+        void setLetra(char letter);
         void setPuntos(int points);
 
+        /* size() */
+        /* empty() */
+
+        /* operator< */
+        bool operator<(const Letra &otra) const;
 };
 
 #endif
