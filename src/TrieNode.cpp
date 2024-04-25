@@ -45,10 +45,11 @@ void TrieNode::search_words_childNodes(set<string>& list_words, string wordAux, 
     wordAux += this->getLetter();
     string ad = wordAux;
 
-    if (this->flagWord)
+    if (this->flagWord){
         if (inverso)
             reverse(ad.begin(), ad.end());
         list_words.insert(ad);
+    }
 
     if (!this->childNodes_isEmpty()){
         for (auto c : childNodes){

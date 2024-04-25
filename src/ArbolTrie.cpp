@@ -53,9 +53,6 @@ set<string> ArbolTrie::search_words(string& word, bool inverso){
     TrieNode* currentNode = search_prefix(word);
 
     if (currentNode == nullptr){
-        string str = inverso ? "sufijo" : "prefijo";
-        str += " " + word;
-        cout << "El " << str << " no se ha podido encontrar en el arbol diccionario." << endl;
         return result;
     } else
         word.pop_back();

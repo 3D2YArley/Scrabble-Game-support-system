@@ -2,7 +2,7 @@
 
 ConsoleIO::ConsoleIO() {
     ayuda = {
-        {"1. Configuración del juego.",
+        {"1. Configuración del juego",
         {
             {"inicializar diccionario.txt", "Inicializa el sistema a partir del archivo diccionario.txt"},
             {"iniciar_inverso diccionario.txt", "Inicializa el sistema a partir del archivo y almacena las palabras en sentido inverso"},
@@ -10,15 +10,15 @@ ConsoleIO::ConsoleIO() {
             {"salir", "Termina la ejecución de la aplicación."}
         }},
 
-        {"2. Búsqueda de palabras.",
+        {"2. Búsqueda de palabras",
         {
-            {"inicializar_arbol diccionario.txt", "Inicializa el sistema desde un archivo diccionario.txt y almacena las palabras en árboles."},
-            {"iniciar_arbol_inverso diccionario.txt", "Inicializa el sistema a partir del archivo y almacena las palabras en sentido inverso en árboles."},
-            {"palabras_por_prefijo prefijo", "Dado un prefijo, el comando recorre el árbol de letras para ubicar todas las palabras posibles a construir."},
-            {"palabras_por_sufijo sufijo", "Dado un sufijo, el comando recorre el árbol de letras para ubicar todas las palabras posibles a construir."}
+            {"inicializar_arbol diccionario.txt", "Inicializa el sistema desde un archivo diccionario.txt y almacena las palabras en un árbol."},
+            {"iniciar_arbol_inverso diccionario.txt", "Inicializa el sistema a partir del archivo y almacena las palabras en sentido inverso en un árbol."},
+            {"palabras_por_prefijo prefijo", "Dado un prefijo, se recorre el árbol de letras para ubicar todas las palabras posibles a construir."},
+            {"palabras_por_sufijo sufijo", "Dado un sufijo, se recorre el árbol de letras para ubicar todas las palabras posibles a construir."}
         }},
 
-        {"3. Combinaciones de palabras.",
+        {"3. Combinaciones de palabras",
         {
             {"grafo_de_palabras", "No implementado."},
             {"posibles_plabras letras", "No implementado."}
@@ -66,8 +66,7 @@ void ConsoleIO::process_components(string command){
         scrabble.inicializar_diccionario(command.substr(16), true);
 
     } else if (command.substr(0, 8) == "puntaje "){
-        string str = scrabble.word_score(command.substr(8));
-        cout << str << endl;
+        scrabble.word_score(command.substr(8));
 
     } else if (command.substr(0, 14) == "iniciar_arbol "){
         scrabble.inicializar_Arbol(command.substr(14), false);
@@ -76,20 +75,10 @@ void ConsoleIO::process_components(string command){
         scrabble.inicializar_Arbol(command.substr(22), true);
 
     } else if (command.substr(0, 21) == "palabras_por_prefijo "){
-        cout << "Las palabras con el prefijo " << command.substr(20) << "son: " << endl;
-        set<Palabra> lista = scrabble.search_words(command.substr(21), false);
+        scrabble.search_words(command.substr(21), false);
 
-        for(auto p : lista){
-            cout << p.getPalabra() << "    Puntaje: " << to_string(p.getPoints()) << "    Longitud: " << to_string(p.getLength()) << endl;
-        }
     } else if (command.substr(0, 20) == "palabras_por_sufijo "){
-        cout << "Las palabras con el sufijo " << command.substr(20) << "son: " << endl;
-        set<Palabra> lista = scrabble.search_words(command.substr(20), true);
-        
-        for(auto p : lista){
-            cout << p.getPalabra() << "    Puntaje: " << to_string(p.getPoints()) << "    Longitud: " << to_string(p.getLength()) << endl;
-        }
-
+        scrabble.search_words(command.substr(20), true);
 
 
         

@@ -33,10 +33,12 @@ class Scrabble {
         bool fill_letter(string nom_archivo);
         
         bool inicializar_diccionario(string nom_archivo, bool invertir);
-        string word_score(string word);
+        bool word_score(string word);
+        
+        bool check_words(string &word);
 
-        void inicializar_Arbol(string nom_archivo, bool invertir);
-        set<Palabra> search_words(string word, bool isPrefix);
+        bool inicializar_Arbol(string nom_archivo, bool invertir);
+        void search_words(string word, bool isPrefix);
         int calculate_score(string& word);
 };
 
