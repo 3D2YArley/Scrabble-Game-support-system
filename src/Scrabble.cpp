@@ -55,6 +55,7 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
         cout << "El archivo " << nameFile << " no existe o no puede ser leído." << endl;
         return false;
     }
+    bool invalido = false;
     // Bucle que lee linea por linea la información del archivo
     while (fin >> palabra) {
         // Se verifica que la palabra no contenga caracteres no alfabeticos y se mutan a minuscula.
@@ -73,15 +74,16 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
                 p.setLength(palabra.size());
                 dictionary.addWord(p);
             }
-        } else {
-            cout << "El archivo " << nameFile << " contiene palabras con carácteres inválidos." << endl;
-            return false;
-        }
+        } else
+        invalido = true;
     }
+    if (invalido)
+        cout << endl << "Las anteriores palabras se han descartado por tener simbolos no válidos.\n" << endl;
+
     fin.close();
     // Se imprime mensaje
     string str = (!inverse) ? "diccionario" : "diccionario inverso";
-    cout << "El " << str << " se ha inicializado correctamente." << endl;
+    cout << endl << "El " << str << " se ha inicializado correctamente." << endl;
     return true;
 }
 
@@ -141,6 +143,7 @@ bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
         cout << "El archivo " << nameFile << " no existe o no puede ser leído.\n" << endl;
         return false;
     }
+    bool invalido = false;
     
     // Se realiza la lectura de cada linea del archivo obteniendo la palabra almacenada
     while (fin >> palabra) {
@@ -153,11 +156,11 @@ bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
             } else
                 // Se agrega al arbol normal
                 tree.insert_word(palabra);
-        } else {
-            cout << "El archivo " << nameFile << " contiene palabras con carácteres inválidos." << endl;
-            return false;
-        }
+        } else
+            invalido = true;
     }
+    if (invalido)
+        cout << endl <<"Las anteriores palabras se han descartado por tener simbolos no válidos.\n" << endl;
     // Se imprime mensaje de verificación
     fin.close();
     string str = (!inverse) ? "" : "inverso ";
@@ -214,7 +217,7 @@ void Scrabble::buscar_palabras(string word, bool isPrefix) {
 bool Scrabble::check_words(string &word){
     // Verificar que la palabra contenga solo letras
     if (!all_of(word.begin(), word.end(), ::isalpha)){
-        cout << endl << word << endl;
+        cout << endl << word;
         return false;
     } else {
         // Se mutan las letras a minuscula
