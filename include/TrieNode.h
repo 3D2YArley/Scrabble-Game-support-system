@@ -8,30 +8,35 @@
 
 using namespace std;
 
+/* Definición del TAD TrieNode como una clase. */
 class TrieNode {
     private:
+        /* Datos mínimos */
         bool flagWord;
         char letter;
         map<char, TrieNode*> childNodes;
     
     public:
-        // Constructores
+        /* Constructores */
         TrieNode();
         TrieNode(char c);
 
-        // Funciones Básicas de clase
-        void setFlagWord(bool flag);
+        /* getters */
         bool getFlagWord();
-        void setLetter(char c);
         char getLetter();
 
-        map<char, TrieNode*> getChildNodes();
+        /* getters */
+        void setFlagWord(bool flag);
+        void setLetter(char c);
+
+        /* Manejo de los nodos hijos. */
         void insert_childNode(char c);
-        void search_words_childNodes(set<string>& list_words, string wordAux, bool inverso);
-        
-        bool childNodes_isEmpty();
         TrieNode* get_nodo_key(char c);
+        bool childNodes_isEmpty();
         bool key_exist(char c);
+
+        /* Función principal. */
+        void search_words_childNodes(set<string>& list_words, string wordAux, bool inverso);
 };
 
 #endif

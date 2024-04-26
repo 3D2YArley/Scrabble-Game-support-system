@@ -1,6 +1,8 @@
 #include "ConsoleIO.h"
 
+/* Creadores de instancias de ConsoleIO */
 ConsoleIO::ConsoleIO() {
+    // Definición de los comandos y componentes
     ayuda = {
         {"1. Configuración del juego",
         {
@@ -27,18 +29,36 @@ ConsoleIO::ConsoleIO() {
     };
 }
 
+/* Función encargada de agregar las letras de un archivo a la lista de letras. */
 void ConsoleIO::add_letters(){
     bool init = scrabble.fill_letter("letras.txt");
     if (!init){
+        // Si no existe el archivo se para el programa.
         cout << endl << "El archivo letras.txt no existe." << endl;
         cout << "Es necesario revisar los archivos de texto en la carpeta 'files'.\n" << endl;
         exit(0);
     }
 }
 
+/* Función encargada de procesar los comandos principales de ayuda y salir. */
 void ConsoleIO::process_command(string command){
-    if(command.substr(0, 5) == "ayuda"){
+    if(command == "ayuda"){
         list_commands(command);
+    } else if (command.substr(0, 6) == "ayuda ") {
+        string specificCommand = command.substr(6);
+        bool encontrado = false;
+        for (const auto &section : ayuda) {
+            for (const auto &entrada : section.second) {
+                if (entrada.first.compare(specificCommand) == 0) {
+                    cout << "     " << left << setw(40) << entrada.first << entrada.second << endl;
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
+        if (!encontrado) {
+            cout << "Comando no encontrado." << endl;
+        }
     } else if(command == "salir"){
         exit(0);
     } else {
@@ -46,11 +66,13 @@ void ConsoleIO::process_command(string command){
     }
 } 
 
+/* Función encargada de listar los comandos correspondientes disponibles. */
 void ConsoleIO::list_commands(string command){
     cout << endl;
+    // Recorre el mapa de componentes.
     for (auto& componente : ayuda){
         cout << componente.first << ":" << endl;
-
+        // Recorre cada uno de los comandos por componente y los imprime
         for (auto& comando : componente.second){
             cout << "     " << left << setw(40) << comando.first << comando.second << endl;
         }
@@ -58,6 +80,7 @@ void ConsoleIO::list_commands(string command){
     }
 }
 
+/* Procesa el comando ingresado y llama las funciones del objeto scrabble correspondientes. */
 void ConsoleIO::process_components(string command){
     if (command.substr(0, 12) == "inicializar "){
         scrabble.inicializar_diccionario(command.substr(12), false);

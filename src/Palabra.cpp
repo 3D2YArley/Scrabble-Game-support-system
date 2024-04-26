@@ -5,7 +5,6 @@ Palabra::Palabra(){ }
 
 Palabra::Palabra(string word){
     this->word = word;
-    this->points = 0;
     this->length = word.length();
 }
 /* Obtenedores de atributos */
