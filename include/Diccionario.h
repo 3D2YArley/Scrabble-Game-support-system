@@ -18,11 +18,11 @@ class Diccionario {
 
         /* getters */
         list<Palabra> getListWords();
-        void setListWords(list<Palabra> works);
+        void setListWords(list<Palabra> palabras);
 
         /* Busqueda y inserción */
-        void addWord(Palabra p);
-        Palabra* searchWord(const string& word);
+        void addWord(Palabra palabra);
+        Palabra* searchWord(const string& palabra);
 
         /* size() */
         

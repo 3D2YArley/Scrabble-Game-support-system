@@ -24,9 +24,9 @@ class ArbolTrie {
         void setCantWords(bool increase);
 
         /* Busqueda y inserción */
-        void insert_word(string& word);
+        void insert_word(string& palabra);
         TrieNode* search_prefix(string& prefix);
-        set<string> search_words(string& word, bool inverse);
+        set<string> search_words(string& palabra, bool inverso);
 
         /* empty() */
         bool isEmpty();

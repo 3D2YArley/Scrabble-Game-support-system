@@ -24,12 +24,12 @@ class Palabra {
         int getPoints();
         int getLength();
         /* setters */
-        void setWord(string word);
-        void setPoints(int points);
-        void setLength(int length);
+        void setWord(string palabra);
+        void setPoints(int puntos);
+        void setLength(int longitud);
 
         /* operator< */
-        bool operator<(const Palabra& other) const;
+        bool operator<(const Palabra& otra) const;
 };
 
 #endif

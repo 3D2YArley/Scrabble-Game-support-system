@@ -19,14 +19,14 @@ class Letra {
         char getLetter();
         int getPoint();
         /* setters */
-        void setLetter(char letter);
-        void setPoint(int points);
+        void setLetter(char letra);
+        void setPoint(int punto);
 
         /* size() */
         /* empty() */
 
         /* operator< */
-        bool operator<(const Letra &other) const;
+        bool operator<(const Letra &otra) const;
 
 };
 
