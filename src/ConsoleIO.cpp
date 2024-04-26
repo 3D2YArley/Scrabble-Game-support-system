@@ -102,13 +102,15 @@ void ConsoleIO::process_components(string command){
 
     } else if (command.substr(0, 20) == "palabras_por_sufijo "){
         scrabble.buscar_palabras(command.substr(20), true);
-
-
         
-    } else if (command.substr(0, 18) == "grafo_de_palabras "){
+    
+    } else if (command.substr(0, 18) == "grafo_de_palabras ") {
         cout << "grafo_de_palabras" << endl;
 
-    } else {        
+    } else if (command.substr(0, 19) == "posibles_palabras ") {
+        cout << "posibles_palabras" << endl;
+
+    } else {
         cout << "Comando no reconocido" << endl;
     }
 }

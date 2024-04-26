@@ -37,7 +37,6 @@ bool Scrabble::fill_letter(string nameFile){
     }
 }
 
-
 /* Función encargada de inicializar el diccionario de palabras. */    
 bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
     // Verificar si el diccionario ya ha sido inicializado
@@ -53,7 +52,7 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
     // Se abre el archivo de texto diccionario en modo lectura.
     ifstream fin("files/" + nameFile);
     if (!fin.is_open()) {
-        cout << "El archivo " << nameFile << " no existe o no puede ser leído.\n" << endl;
+        cout << "El archivo " << nameFile << " no existe o no puede ser leído." << endl;
         return false;
     }
     // Bucle que lee linea por linea la información del archivo
@@ -66,10 +65,12 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
                 // Se invierte la palabra y se agrega al diccionario inverso.
                 reverse(palabra.begin(), palabra.end());
                 p.setWord(palabra);
+                p.setLength(palabra.size());
                 inverse_dicc.addWord(p);
             } else {
                 // Solo se agrega al diccionario normal.
                 p.setWord(palabra);
+                p.setLength(palabra.size());
                 dictionary.addWord(p);
             }
         } else {
@@ -110,6 +111,7 @@ bool Scrabble::puntaje_palabra(string word) {
     // Si no existe retorna error
     if (pal == nullptr || pal2 == nullptr){
        cout << "La palabra " + word + " no existe en los diccionarios." << endl;
+       return false;
     } else {
         // Si la palabra existe en el diccionario, se calcula su puntaje
         puntaje = calculate_score(word);
@@ -125,10 +127,10 @@ bool Scrabble::puntaje_palabra(string word) {
 bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
     // Se verifica que no exista el arbol diccionario correspondiente usando el booleano invertir
     if (!tree.isEmpty() && !inverse){
-        cout << "El árbol del diccionario ya ha sido inicializado.";
+        cout << "El árbol del diccionario ya ha sido inicializado." << endl;
         return false;
     } else if (!inverse_tree.isEmpty() && inverse){
-        cout << "El árbol del diccionario inverso ya ha sido inicializado.";
+        cout << "El árbol del diccionario inverso ya ha sido inicializado." << endl;
         return false;
     }
 
@@ -165,38 +167,44 @@ bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
 
 /* Algoritmo que busca la lista de palabras que inician con un prefijo o sufijo dado. */
 void Scrabble::buscar_palabras(string word, bool isPrefix) {
-    // Se inicializan variables
-    set<string> listaAuxiliar;
-    set<Palabra> lista_palabras;
-    string preSuf = isPrefix ? "sufijo " : "prefijo ";
-    // Se verifica si se requiere buscar palabras con prefijo o sufijo determinado por la variable isPrefix
-    if (!isPrefix){
-        listaAuxiliar = tree.search_words(word, isPrefix);  // Si es prefijo se usa la función de busqueda de palabras en el arbol
-    } else if (isPrefix) {
-        reverse(word.begin(), word.end());  // Si es sufijo se usa la función en el arbol inverso
-        listaAuxiliar = inverse_tree.search_words(word, isPrefix);
-    }
-
-    // Se verifica que la lista no esté vacia
-    if (!listaAuxiliar.empty()){
-        // Recorre cada elemento de la lista de palabras y calcula cada atributo para crear un dato Palabra
-        for (string c : listaAuxiliar){
-            Palabra palabra = Palabra(c); 
-
-            int puntaje = calculate_score(c);
-            palabra.setPoints(puntaje);
-            // Se agrega el dato de tipo Palabra a la lista final.
-            lista_palabras.insert(palabra);
-        }
-        // Se imprime en pantalla el resultado
-        cout << endl << "Las palabras que inician con este " << preSuf << " son: " << endl;
-        cout << left << setw(20) << "Palabra" << setw(10) << "Puntaje" << setw(10) << "Longitud" << endl;
-        for(auto p : lista_palabras){
-            cout << left << setw(20) << p.getWord() << setw(10) << to_string(p.getPoints()) << setw(10) << to_string(p.getLength()) << endl;
-        }
+    if (tree.isEmpty()){
+        cout << "El árbol del diccionario no ha sido inicializado." << endl;
+    } else if (inverse_tree.isEmpty()){
+        cout << "El árbol del diccionario inverso no ha sido inicializado." << endl;
     } else {
-        // Si la lista está vacia se imprime mensaje de que el prefijo no se encontró en el arbol.
-        cout << "Prefijo " << word << " no pudo encontrarse en el diccionario." << endl;
+        // Se inicializan variables
+        set<string> listaAuxiliar;
+        set<Palabra> lista_palabras;
+        string preSuf = isPrefix ? "sufijo " : "prefijo ";
+        // Se verifica si se requiere buscar palabras con prefijo o sufijo determinado por la variable isPrefix
+        if (!isPrefix){
+            listaAuxiliar = tree.search_words(word, isPrefix);  // Si es prefijo se usa la función de busqueda de palabras en el arbol
+        } else if (isPrefix) {
+            reverse(word.begin(), word.end());  // Si es sufijo se usa la función en el arbol inverso
+            listaAuxiliar = inverse_tree.search_words(word, isPrefix);
+        }
+
+        // Se verifica que la lista no esté vacia
+        if (!listaAuxiliar.empty()){
+            // Recorre cada elemento de la lista de palabras y calcula cada atributo para crear un dato Palabra
+            for (string c : listaAuxiliar){
+                Palabra palabra = Palabra(c); 
+
+                int puntaje = calculate_score(c);
+                palabra.setPoints(puntaje);
+                // Se agrega el dato de tipo Palabra a la lista final.
+                lista_palabras.insert(palabra);
+            }
+            // Se imprime en pantalla el resultado
+            cout << endl << "Las palabras que inician con este " << preSuf << " son: " << endl;
+            cout << left << setw(20) << "Palabra" << setw(10) << "Puntaje" << setw(10) << "Longitud" << endl;
+            for(auto p : lista_palabras){
+                cout << left << setw(20) << p.getWord() << setw(10) << to_string(p.getPoints()) << setw(10) << to_string(p.getLength()) << endl;
+            }
+        } else {
+            // Si la lista está vacia se imprime mensaje de que el prefijo no se encontró en el arbol.
+            cout << "Prefijo " << word << " no pudo encontrarse en el diccionario." << endl;
+        }
     }
 }
 

@@ -9,18 +9,18 @@ list<Palabra> Diccionario::getListWords(){
     return list_words;
 }
 /* Fijadores del valor de atributos*/
-void Diccionario::setListWords(list<Palabra> works){
-    list_words = works;
+void Diccionario::setListWords(list<Palabra> palabras){
+    list_words = palabras;
 }
 /* Agregar una palabra a la lista de palabras */
-void Diccionario::addWord(Palabra work){
-    list_words.push_back(work);
+void Diccionario::addWord(Palabra palabra){
+    list_words.push_back(palabra);
 }
 /* Función que busca una palabra en una lista utilizando punteros */
-Palabra* Diccionario::searchWord(const string& word) {
-    for (Palabra& palabra : list_words) {
-        if (palabra.getWord() == word) {
-            return &palabra; // Devuelve el puntero a la palabra si la encuentra
+Palabra* Diccionario::searchWord(const string& palabra) {
+    for (Palabra& pal : list_words) {
+        if (pal.getWord() == palabra) {
+            return &pal; // Devuelve el puntero a la palabra si la encuentra
         }
     }
     return nullptr; // Devuelve nullptr si la palabra no está en la lista

@@ -16,11 +16,11 @@ int Letra::getPoint(){
 }
 
 /* Fijadores del valor de atributos*/
-void Letra::setLetter(char letter){
-    letter = letter;
+void Letra::setLetter(char letra){
+    letter = letra;
 }
-void Letra::setPoint(int points){
-    point = points;
+void Letra::setPoint(int punto){
+    point = punto;
 }
 
 /* Ordenador de elementos de TAD Letra*/
