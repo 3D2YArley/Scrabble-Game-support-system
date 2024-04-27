@@ -170,9 +170,9 @@ bool Scrabble::inicializar_arbol(string nameFile, bool inverse){
 
 /* Algoritmo que busca la lista de palabras que inician con un prefijo o sufijo dado. */
 void Scrabble::buscar_palabras(string word, bool isPrefix) {
-    if (tree.isEmpty() && isPrefix){
+    if (tree.isEmpty() && !isPrefix){
         cout << "El árbol del diccionario no ha sido inicializado." << endl;
-    } else if (inverse_tree.isEmpty() && !isPrefix){
+    } else if (inverse_tree.isEmpty() && isPrefix){
         cout << "El árbol del diccionario inverso no ha sido inicializado." << endl;
     } else {
         // Se inicializan variables
