@@ -14,6 +14,7 @@
 #include "Letra.h"
 #include "Diccionario.h"
 #include "ArbolTrie.h"
+#include "GrafoDiccionario.h"
 
 using namespace std;
 
@@ -28,6 +29,9 @@ class Scrabble {
 
         ArbolTrie tree;
         ArbolTrie inverse_tree;
+
+        /* Nueva clase */
+        GrafoDiccionario graphDicc;
 
     public:
         /* Constructor */
@@ -45,6 +49,9 @@ class Scrabble {
         /* Operaciones de modulo Búsqueda de palabras. */
         bool inicializar_arbol(string nameFile, bool inverse);
         void buscar_palabras(string word, bool isPrefix);
+
+        /* Funciones asociadas al grafo de diccionario. */
+        void grafo_de_palabras();
 };
 
 #endif

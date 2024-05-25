@@ -24,9 +24,12 @@ class NodoGrafo {
         void setNum_vecinos(const int vecinos);
 
         list<NodoGrafo*>& getAdyacentes();
+        
         void addAdyacente(NodoGrafo* nodo);
         void deleteAdyacente(NodoGrafo* nodo);
+
         bool findAyacente(NodoGrafo* nodoBuscado);
+        void modificarAdyacente(NodoGrafo* nodo, const Palabra& nuevaPalabra);
 
 };
 

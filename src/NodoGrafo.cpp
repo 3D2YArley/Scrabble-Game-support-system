@@ -34,6 +34,15 @@ void NodoGrafo::deleteAdyacente(NodoGrafo* nodo) {
     }
 }
 
+void NodoGrafo::modificarAdyacente(NodoGrafo* nodo, const Palabra& nuevaPalabra) {
+    for (auto it = listaAdyacencia.begin(); it != listaAdyacencia.end(); ++it) {
+        if (*it == nodo) {
+            (*it)->setPalabra(nuevaPalabra);
+            break;
+        }
+    }
+}
+
 bool NodoGrafo::findAyacente(NodoGrafo* nodoBuscado) {
     for (NodoGrafo* vecino : listaAdyacencia){
         if (vecino->getPalabra().getWord() == nodoBuscado->getPalabra().getWord()){

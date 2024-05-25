@@ -22,7 +22,7 @@ ConsoleIO::ConsoleIO() {
 
         {"3. Combinaciones de palabras",
         {
-            {"grafo_de_palabras", "No implementado."},
+            {"grafo_de_palabras", "Construye un grafo de palabras, cada palabra se conecta a las demas solo si difieren en un unica letra."},
             {"posibles_plabras letras", "No implementado."}
         }
         }
@@ -104,10 +104,10 @@ void ConsoleIO::process_components(string command){
         scrabble.buscar_palabras(command.substr(20), true);
         
     
-    } else if (command.substr(0, 18) == "grafo_de_palabras ") {
-        cout << "grafo_de_palabras" << endl;
+    } else if (command.substr(0, 18) == "grafo_de_palabras") {
+        scrabble.grafo_de_palabras();
 
-    } else if (command.substr(0, 19) == "posibles_palabras ") {
+    } else if (command.substr(0, 19) == "posibles_palabras") {
         cout << "posibles_palabras" << endl;
 
     } else {

@@ -7,6 +7,7 @@ Scrabble::Scrabble() {
     inverse_dicc = Diccionario();
     tree = ArbolTrie();
     inverse_tree = ArbolTrie();
+    graphDicc = GrafoDiccionario();
 }
 
 /* Función principal que inicializa la liista de letras a partir del archivo de texto. */
@@ -244,4 +245,22 @@ int Scrabble::calculate_score(string& word){
         }   
     }
     return puntaje;
+}
+
+void Scrabble::grafo_de_palabras() {
+    if (dictionary.palabras_is_empty()) {
+        cout << endl << "El Diccionario NO ha sido inicializado." << endl;
+        return;
+    } else {
+        // Agregar Nodos
+        for (auto& palabra : dictionary.getListWords()) {
+            graphDicc.addNodo(palabra);
+        }
+        // Conectar nodos
+        graphDicc.addAristas();
+        cout << endl << "Grafo construido correctamente." << endl;
+
+        cout << endl;
+        graphDicc.imprimirVecinos("bean");
+    }
 }
