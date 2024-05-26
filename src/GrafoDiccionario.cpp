@@ -23,12 +23,20 @@ void GrafoDiccionario::deleteNodo(const string& palabra) {
 }
 
 void GrafoDiccionario::addAristas() {
+    // Crear mapa con clave longitud y valor lista de palabras
+    unordered_map<int, vector<decltype(nodos.begin())>> length_map;
+    for (auto it = nodos.begin(); it != nodos.end(); ++it) {
+        length_map[it->first.size()].push_back(it);
+    }
     // Conectar nodos
-    for (auto it1 = nodos.begin(); it1 != nodos.end(); ++it1) {
-        for (auto it2 = next(it1); it2 != nodos.end(); ++it2) {
-            if (diferenciaUnaLetra(it1->first, it2->first)) {
-                it1->second->addAdyacente(it2->second);
-                it2->second->addAdyacente(it1->second);
+    for (const auto& entry : length_map) {
+        const auto& vec = entry.second;
+        for (size_t i = 0; i < vec.size(); ++i) {
+            for (size_t j = i + 1; j < vec.size(); ++j) {
+                if (diferenciaUnaLetra(vec[i]->first, vec[j]->first)) {
+                    vec[i]->second->addAdyacente(vec[j]->second);
+                    vec[j]->second->addAdyacente(vec[i]->second);
+                }
             }
         }
     }
