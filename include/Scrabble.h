@@ -40,7 +40,7 @@ class Scrabble {
         
         /* Operaciones de modulo Configuración del juego. */
         bool inicializar_diccionario(string nameFile, bool inverse);
-        bool puntaje_palabra(string word);
+        Palabra* puntaje_palabra(string word, bool grafo);
         
         /* Funciones adicionales útiles. */
         int calculate_score(string& word);
@@ -48,7 +48,6 @@ class Scrabble {
         bool check_words(string &word);
         int verificar_Posibles_Palabras(string &word);
         vector<string> combinaciones_posibles_palabras(string word);
-
 
         /* Operaciones de modulo Búsqueda de palabras. */
         bool inicializar_arbol(string nameFile, bool inverse);
