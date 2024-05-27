@@ -23,7 +23,7 @@ ConsoleIO::ConsoleIO() {
         {"3. Combinaciones de palabras",
         {
             {"grafo_de_palabras", "Construye un grafo de palabras, cada palabra se conecta a las demas solo si difieren en un unica letra."},
-            {"posibles_plabras letras", "No implementado."}
+            {"posibles_palabras letras", "Dadas ciertas letras el comando debe presentar en pantalla todas las posibles palabras válidas a construir."}
         }
         }
     };
@@ -89,7 +89,7 @@ void ConsoleIO::process_components(string command){
         scrabble.inicializar_diccionario(command.substr(16), true);
 
     } else if (command.substr(0, 8) == "puntaje "){
-        scrabble.puntaje_palabra(command.substr(8));
+        scrabble.puntaje_palabra(command.substr(8), false);
 
     } else if (command.substr(0, 14) == "iniciar_arbol "){
         scrabble.inicializar_arbol(command.substr(14), false);
@@ -102,13 +102,12 @@ void ConsoleIO::process_components(string command){
 
     } else if (command.substr(0, 20) == "palabras_por_sufijo "){
         scrabble.buscar_palabras(command.substr(20), true);
-        
     
     } else if (command.substr(0, 18) == "grafo_de_palabras") {
         scrabble.grafo_de_palabras();
 
-    } else if (command.substr(0, 19) == "posibles_palabras") {
-        cout << "posibles_palabras" << endl;
+    } else if (command.substr(0, 18) == "posibles_palabras ") {
+        scrabble.posibles_palabras(command.substr(18));
 
     } else {
         cout << "Comando no reconocido" << endl;

@@ -58,7 +58,11 @@ NodoGrafo* GrafoDiccionario::getNodo(const string& palabra) {
     }
     return nullptr;
 }
- 
+
+unordered_map<string, NodoGrafo *> GrafoDiccionario::getNodos() {
+    return nodos;
+}
+
 void GrafoDiccionario::modificarNodo(const string& palabra, const Palabra& nuevaPalabra) {
     auto it = nodos.find(palabra);
     if (it != nodos.end()) {
@@ -73,17 +77,15 @@ void GrafoDiccionario::modificarNodo(const string& palabra, const Palabra& nueva
     }
 }
 
-void GrafoDiccionario::imprimirVecinos(const string& palabra) {
+vector<string> GrafoDiccionario::obtenerVecinos(const string &palabra) {
     auto it = nodos.find(palabra);
+    vector<string> vecinos;
     if (it != nodos.end()) {
-        cout << "Vecinos de la palabra \"" << palabra << "\": " << endl;
-        for (const auto& vecino : it->second->getAdyacentes()) {
-            cout << vecino->getPalabra().getWord() << "\n";
+        for (const auto &vecino : it->second->getAdyacentes()) {
+            vecinos.push_back(vecino->getPalabra().getWord());
         }
-        cout << endl;
-    } else {
-        cout << "La palabra \"" << palabra << "\" no existe en el grafo." << endl;
     }
+    return vecinos;
 }
 
 bool GrafoDiccionario::diferenciaUnaLetra(const string& palabra1, const string& palabra2) {

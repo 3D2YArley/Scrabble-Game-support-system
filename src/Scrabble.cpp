@@ -89,18 +89,18 @@ bool Scrabble::inicializar_diccionario(string nameFile, bool inverse){
 }
 
 /* Calcula el puntaje de una palabra dada segun el puntaje de sus letras */
-bool Scrabble::puntaje_palabra(string word) {
-    // Se realiza una verificación de existencia de ambos diccionarios
+Palabra *Scrabble::puntaje_palabra(string word, bool grafo) {
+  // Se realiza una verificación de existencia de ambos diccionarios
     if (dictionary.palabras_is_empty()) {
         cout << "El Diccionario no ha sido inicializado." << endl;
-        return false;
-    } else if (inverse_dicc.palabras_is_empty()){
+        return nullptr;
+    } else if (inverse_dicc.palabras_is_empty()) {
         cout << "El Diccionario Inverso no ha sido inicializado." << endl;
-        return false;
-    // Se verifica que la palabra sea válida
-    } else if (!check_words(word)){
+        return nullptr;
+        // Se verifica que la palabra sea válida
+    } else if (!check_words(word)) {
         cout << "La palabra " + word + "  contiene símbolos inválidos." << endl;
-        return false;
+        return nullptr;
     }
 
     int puntaje = 0;
@@ -108,13 +108,14 @@ bool Scrabble::puntaje_palabra(string word) {
     reverse(word_inv.begin(), word_inv.end());
 
     // Verificar que la palabra esté en los diccionarios
-    Palabra* pal = dictionary.searchWord(word);
-    Palabra* pal2 = inverse_dicc.searchWord(word_inv);
+    Palabra *pal = dictionary.searchWord(word);
+    Palabra *pal2 = inverse_dicc.searchWord(word_inv);
 
-    // Si no existe retorna error
-    if (pal == nullptr || pal2 == nullptr){
-       cout << "La palabra " + word + " no existe en los diccionarios." << endl;
-       return false;
+  // Si no existe retorna error
+    if (pal == nullptr || pal2 == nullptr) {
+        if (!grafo)
+            cout << "La palabra " + word + " no existe en los diccionarios." << endl;
+        return nullptr;
     } else {
         // Si la palabra existe en el diccionario, se calcula su puntaje
         puntaje = calculate_score(word);
@@ -122,8 +123,9 @@ bool Scrabble::puntaje_palabra(string word) {
         pal->setPoints(puntaje);
         pal2->setPoints(puntaje);
     }
-    cout << "La palabra " + word + " tiene un puntaje de: " + to_string(puntaje) << endl;
-    return true;
+    if (!grafo)
+        cout << "La palabra " + word + " tiene un puntaje de: " + to_string(puntaje) << endl;
+    return pal;
 }
 
 /* Función que inicializa un arbol con las palabras del archivo de texto diccionario. */
@@ -260,7 +262,117 @@ void Scrabble::grafo_de_palabras() {
         graphDicc.addAristas();
         cout << endl << "Grafo construido correctamente." << endl;
 
-        cout << endl;
-        graphDicc.imprimirVecinos("bean");
     }
+}
+
+//. Dada una cadena de caracteres: genera todas las combinaciones posibles de
+// las letras, calcula los puntajes y muestra las palabras válidas con sus
+// puntajes y longitudes.
+bool Scrabble::posibles_palabras(string word) {
+    vector<string> combinaciones, vecinos;
+    GrafoDiccionario grafo = graphDicc;
+
+    // Verifica que el grafo de palabras esté inicializado
+    if (grafo.getNodos().empty()) {
+        cout << endl << "El Grafo NO ha sido inicializado." << endl;
+        return false;
+    }
+
+    // Verifica que no haya caracteres inválidos
+    int verif = verificar_Posibles_Palabras(word);
+    if (verif == 0) {
+        return false;
+    }
+
+  // Busca todas las posibles combinaciones de los caracteres enviados
+    combinaciones = combinaciones_posibles_palabras(word);
+    if (combinaciones.empty()) {
+        cout << "Error al encontrar combinaciones posibles" << endl;
+        return false;
+    }
+
+    cout << endl << "Las posibles palabras a construir con las letras " << word << " son:" << endl;
+    cout << setw(15) << left << "Palabra" << setw(12) << left << "Puntaje" << setw(8) << left << "Largo" << endl;
+
+  // Procesa cada combinación
+    for (auto &str : combinaciones) {
+        if (str.find("?") != string::npos) {
+            // Si se encuentra el carácter '?', añade la palabra al grafo y obtiene
+            // los vecinos
+            Palabra p = Palabra(str);
+            grafo.addNodo(p);
+            grafo.addAristas();
+            vecinos = grafo.obtenerVecinos(str);
+            grafo.deleteNodo(str);
+        
+            // Calcula el puntaje de los vecinos
+            for (auto &vecino : vecinos) {
+                Palabra *pal = puntaje_palabra(vecino, true);
+                if (pal != nullptr) {
+                    cout << setw(15) << left << pal->getWord() << setw(12) << left << pal->getPoints() << setw(8) << left << pal->getLength() << endl;
+                }
+            }
+        } else {
+            // Calcula el puntaje directamente si no hay '?'
+            Palabra *pal = puntaje_palabra(str, true);
+            if (pal != nullptr) {
+                cout << setw(15) << left << pal->getWord() << setw(12) << left << pal->getPoints() << setw(8) << left << pal->getLength() << endl;
+            }
+        }
+    }
+    return true;
+}
+
+
+/*Verifica que los caracteres de la palabra sean válidos y los convierte a
+ * minúsculas. Asegura que no haya más de un comodín ('?')*/
+int Scrabble::verificar_Posibles_Palabras(string &word) {
+    int comodin = 0;
+    // se verifica que la palabra sea valida
+    for (char &c : word) {
+        if (c == '?')
+            comodin++;
+        if (isalpha(c) || c == '?')
+        // Se mutan las letras a minuscula
+        c = tolower(c);
+        else {
+            cout << endl << "El caracter '" << c << "' es invalido" << endl;
+            return 0;
+        }
+    }
+    if (comodin == 2) {
+        cout << endl << "El caracter '?' dos veces es invalido" << endl;
+        return 0;
+    }
+    return 1;
+}
+
+
+/*Genera todas las combinaciones posibles de las letras de la palabra. Ordena
+ * las letras, crea permutaciones de subcadenas, y coloca las combinaciones con
+ * comodín ('?') al final*/
+vector<string> Scrabble::combinaciones_posibles_palabras(string word) {
+    vector<string> combinaciones;
+    sort(word.begin(), word.end());
+
+    // obtener las permutaciones de todas las subcadenas
+    do {
+        for (int len = 1; len <= word.size(); ++len) {
+            string str;
+            str = word.substr(0, len);
+            auto it = find(combinaciones.begin(), combinaciones.end(), str);
+            if (it == combinaciones.end())
+                combinaciones.push_back(str);
+        }   
+    } while (next_permutation(word.begin(), word.end()));
+
+    // Reordenar para colocar las combinaciones con '?' al final
+    sort(combinaciones.begin(), combinaciones.end(),
+        [](const string &a, const string &b) {
+        return a.find('?') != string::npos && b.find('?') == string::npos;
+        });
+
+    reverse(combinaciones.begin(), combinaciones.end());
+
+    return combinaciones;
 }
