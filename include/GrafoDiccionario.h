@@ -24,10 +24,11 @@ class GrafoDiccionario {
         void eliminarArista(const string& palabra1, const string& palabra2);
 
         NodoGrafo* getNodo(const string& palabra);
+        unordered_map<string, NodoGrafo *> getNodos();
         void modificarNodo(const string& palabra, const Palabra& nuevaPalabra);
 
         void imprimirVecinos(const string& palabra);
+        vector<string> obtenerVecinos(const string& palabra);
 };
-
 
 #endif

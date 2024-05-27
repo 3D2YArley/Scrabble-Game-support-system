@@ -11,10 +11,11 @@
 #include <deque>
 #include <set>
 
-#include "Letra.h"
-#include "Diccionario.h"
 #include "ArbolTrie.h"
+#include "Diccionario.h"
 #include "GrafoDiccionario.h"
+#include "Letra.h"
+#include "Palabra.h"
 
 using namespace std;
 
@@ -45,6 +46,9 @@ class Scrabble {
         int calculate_score(string& word);
         bool fill_letter(string nameFile);
         bool check_words(string &word);
+        int verificar_Posibles_Palabras(string &word);
+        vector<string> combinaciones_posibles_palabras(string word);
+
 
         /* Operaciones de modulo Búsqueda de palabras. */
         bool inicializar_arbol(string nameFile, bool inverse);
@@ -52,6 +56,7 @@ class Scrabble {
 
         /* Funciones asociadas al grafo de diccionario. */
         void grafo_de_palabras();
+        bool posibles_palabras(string word);
 };
 
 #endif
