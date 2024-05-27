@@ -1,5 +1,5 @@
 /* Fecha: 12 marzo 2024
-   Autor: Kevin Garay, Felipe Garrido , Arley Bernal
+   Autor: Arley Bernal, Kevin Garay, Felipe Garrido 
    Materia: Estructura de Datos
    Proyecto: Sistema de apoyo para el juego Scrabble
    Profesor: Ing. John Corredor, PhD
@@ -13,6 +13,12 @@ int main(){
     ConsoleIO consola;
 
     consola.add_letters();
+
+    std::cout << "********************************************" << std::endl;
+    std::cout << "*            Bienvenido a Scrabble           *" << std::endl;
+    std::cout << "*         Que empiece la diversión...        *" << std::endl;
+    std::cout << "********************************************" << std::endl;
+
     
     string command;
     cout << endl << "ayuda                      Lista de comandos disponibles" << endl;
@@ -27,6 +33,3 @@ int main(){
     
     return 0;
 }
-
-
-
