@@ -27,7 +27,6 @@ class GrafoDiccionario {
         unordered_map<string, NodoGrafo *> getNodos();
         void modificarNodo(const string& palabra, const Palabra& nuevaPalabra);
 
-        void imprimirVecinos(const string& palabra);
         vector<string> obtenerVecinos(const string& palabra);
 };
 
